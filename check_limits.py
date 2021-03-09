@@ -4,9 +4,9 @@ battery_parameter = {"temperature": [0, 45, "Temperature", 5, 'Temperatur'],
 language_text = {"failed": ["{} is out of range!", "{} ist außerhalb der Reichweite!"],
                  "warning": ["Warning: {} is nearing the {} limit",
                              "Warnung:Der Wert {} nähert sich der Grenze {}"]}
-
+language = "EN"
 language_code = {"EN": 0, "DE": 1}
-def battery_status(battery_parameter_name, language):
+def battery_status(battery_parameter_name):
     parameter_range = battery_parameter[battery_parameter_name["battery_parameter"]]
     low = parameter_range[0]
     high = parameter_range[1]
@@ -16,11 +16,11 @@ def battery_status(battery_parameter_name, language):
     if value <= low or value >= high:
         print(language_text["failed"][language_code[language]].format(parameter_range[2]))
         return False
-    compare_battery_param_value(low_warning, value, "lower", parameter_range, language)
-    compare_battery_param_value(value, high_warning, "higher",parameter_range,language)
+    compare_battery_param_value(low_warning, value, "lower", parameter_range)
+    compare_battery_param_value(value, high_warning, "higher",parameter_range)
     return True
 
-def compare_battery_param_value(lower_value, upper_value, boundary,parameter_range, language):
+def compare_battery_param_value(lower_value, upper_value, boundary,parameter_range):
     if lower_value >= upper_value:
         print(language_text["warning"][language_code[language]].format(parameter_range[2], boundary) )
 
@@ -28,9 +28,10 @@ def compare_battery_param_value(lower_value, upper_value, boundary,parameter_ran
 
 
 if __name__ == '__main__':
-    assert (battery_status({"battery_parameter": "temperature", "value": 25}, "EN") )is True
-    assert (battery_status({"battery_parameter": "soc", "value": 77},"DE") is True)
-    assert (battery_status({"battery_parameter": "soc", "value": 23},"EN") is True)
-    assert (battery_status({"battery_parameter": "temperature", "value": 50}, "EN") is False)
-    assert (battery_status({"battery_parameter": "temperature", "value": 50}, "DE") is False)
-    assert (battery_status({"battery_parameter": "charge_rate", "value": 0}, 'EN') is False)
+    assert (battery_status({"battery_parameter": "temperature", "value": 25}) )is True
+    assert (battery_status({"battery_parameter": "temperature", "value": 50}) is False)
+    assert (battery_status({"battery_parameter": "charge_rate", "value": 0}) is False)
+    assert (battery_status({"battery_parameter": "soc", "value": 23}) is True)
+    language = "DE"
+    assert (battery_status({"battery_parameter": "soc", "value": 77}) is True)
+    assert (battery_status({"battery_parameter": "temperature", "value": 50}) is False)
