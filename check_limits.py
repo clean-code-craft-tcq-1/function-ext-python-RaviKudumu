@@ -1,10 +1,10 @@
 battery_parameter = {"temperature": [0, 45, "Temperature", 5, 'Temperatur'],
                      "soc": [20, 80, "Soc", 5, "SOC"],
                      "charge_rate": [0, 0.8, "Charge Rate", 5, "Ladestrom"]}
-language_text = {"failed": ["battery-{}: {} is out of range!",
-                            "battery-{}: {} ist außerhalb der Reichweite!"],
-                 "warning": ["Warning:battery-{}: {} is nearing the {} limit",
-                             "Warnung:battery-{}: Der Wert {} nähert sich der Grenze {}"]}
+language_text = {"failed": ["Battery-{}: {} is out of range!",
+                            "Batterie-: {} ist außerhalb der Reichweite!"],
+                 "warning": ["Warning:Battery-{}: {} is nearing the {} limit",
+                             "Warnung:Batterie-{}: Der Wert {} nähert sich der Grenze {}"]}
 language = "EN"
 language_code = {"EN": 0, "DE": 1}
 battery_status_list = {}
@@ -54,7 +54,9 @@ if __name__ == '__main__':
     consolidated_battery_report([50, 23, -1, '1234'])
     consolidated_battery_report([75, 10, 10, '1235'])
     consolidated_battery_report([25, 10, 1, '1234'])
-
+    report_details("Consolidated list\n")
+    report_details(battery_status_list)
+    report_details("\n\n")
     battery_status_list['3425'] = []
     assert (battery_status({"battery_number":'3425',"battery_parameter": "temperature", "value": 25}) )is True
     assert (battery_status({"battery_number":'3425', "battery_parameter": "temperature", "value": 50}) is False)
@@ -64,4 +66,3 @@ if __name__ == '__main__':
     assert (battery_status({"battery_number":'3425', "battery_parameter": "soc", "value": 77}) is True)
     assert (battery_status({"battery_number":'3425', "battery_parameter": "temperature", "value": 50}) is False)
     del battery_status_list['3425']
-    report_details(battery_status_list)
